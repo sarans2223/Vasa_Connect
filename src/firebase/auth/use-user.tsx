@@ -12,6 +12,13 @@ export function useUser() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (auth?.currentUser) {
+      setUser(auth.currentUser);
+      setLoading(false);
+    }
+  }, [auth?.currentUser]);
+
+  useEffect(() => {
     if (!auth) {
       setLoading(false); 
       return;
