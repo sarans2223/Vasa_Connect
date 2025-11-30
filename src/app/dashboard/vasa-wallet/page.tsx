@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Card,
@@ -39,6 +39,8 @@ import { Wallet, Star, Gift, Banknote, Landmark, CreditCard, KeyRound, Calendar 
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 const rewardTiers = [
   { name: 'Book a Cleaner (4 hours)', points: 500, icon: '🧼' },
   { name: 'Book a Cook (One Meal)', points: 700, icon: '🍲' },
@@ -46,7 +48,7 @@ const rewardTiers = [
   { name: 'Full Day Event Help', points: 1500, icon: '🎉' },
 ];
 
-export default function VasaWalletPage() {
+function VasaWalletPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -104,7 +106,6 @@ export default function VasaWalletPage() {
   const handleMakePayment = () => {
     const jobToPay = jobs.find(j => j.id === selectedJob);
     
-    // Check if job needs a numeric pay field. Let's assume some might be string-based from older data.
     const payAmount = jobToPay?.pay ? (typeof jobToPay.pay === 'string' ? parseFloat(jobToPay.pay.replace(/[^0-9.-]+/g,"")) : jobToPay.pay) : 0;
 
 
@@ -196,7 +197,6 @@ export default function VasaWalletPage() {
       description: `You have successfully booked "${selectedReward.name}". The service provider will be confirmed shortly.`,
     });
 
-    // Reset redemption form
     setIsRedeemDialogOpen(false);
     setSelectedReward(null);
     setRedeemLocation('');
@@ -562,4 +562,12 @@ export default function VasaWalletPage() {
 
     </div>
   );
+}
+
+export default function VasaWalletPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <VasaWalletPageContent />
+        </Suspense>
+    )
 }
