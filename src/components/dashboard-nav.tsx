@@ -21,8 +21,8 @@ import {
 const sidebarNavItems = [
     { title: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard /> },
     { title: 'Job Search', href: '/dashboard/jobs', icon: <Search /> },
-    { title: 'Job Post & Status', href: '/dashboard/jobs/status', icon: <Briefcase /> },
-    { title: 'Hire Talent', href: '/dashboard/teams/hire', icon: <PlusCircle /> },
+    { title: 'Job Post & Status', href: '/dashboard/jobs/post', icon: <Briefcase /> },
+    { title: 'Hire Talent', href: '/dashboard/assign-worker', icon: <PlusCircle /> },
     { title: 'VaSa Rebook', href: '/dashboard/rebook', icon: <Repeat /> },
     { title: 'Learning Hub', href: '/dashboard/learning', icon: <BookOpen /> },
     { title: 'My Team', href: '/dashboard/teams', icon: <Users /> },
