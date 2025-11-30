@@ -287,6 +287,7 @@ export default function RebookPage() {
                                         mode="single"
                                         selected={bookingDate}
                                         onSelect={setBookingDate}
+                                        disabled={{ before: new Date() }}
                                         initialFocus
                                         />
                                     </PopoverContent>

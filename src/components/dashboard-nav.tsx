@@ -34,6 +34,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/firebase/auth/use-user";
+import { useAuth } from "@/firebase/provider";
 
 
 const panchayatMenuItems = [
@@ -64,6 +65,7 @@ export function DashboardNav() {
   const router = useRouter();
   const { toast } = useToast();
   const { user } = useUser();
+  const auth = useAuth();
   const [userName, setUserName] = useState('');
   const [panchayatName, setPanchayatName] = useState('SARAN');
 
@@ -88,7 +90,10 @@ export function DashboardNav() {
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      if (!auth) {
+        throw new Error("Auth context is not available");
+      }
+      await signOut(auth);
       if (typeof window !== 'undefined') {
         localStorage.clear();
       }
