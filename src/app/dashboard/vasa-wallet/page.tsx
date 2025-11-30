@@ -36,7 +36,7 @@ import { mockUser, sampleJobs } from '@/lib/data';
 import type { User, Job } from '@/lib/types';
 import { Wallet, Star, Gift, Banknote, Landmark, CreditCard, KeyRound, Calendar as CalendarIcon, Save } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 
 const rewardTiers = [
   { name: 'Book a Cleaner (4 hours)', points: 500, icon: '🧼' },
@@ -68,6 +68,8 @@ function VasaWalletPageContent() {
   const [showSetPin, setShowSetPin] = useState(false);
   const [paymentInitiatedFromPostPage, setPaymentInitiatedFromPostPage] = useState(false);
   
+  const tomorrow = addDays(new Date(), 1);
+
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem('user');
@@ -492,6 +494,7 @@ function VasaWalletPageContent() {
                                     mode="single"
                                     selected={fromDate}
                                     onSelect={setFromDate}
+                                    disabled={{ before: tomorrow }}
                                     initialFocus
                                     />
                                 </PopoverContent>
@@ -530,7 +533,7 @@ function VasaWalletPageContent() {
                                     mode="single"
                                     selected={toDate}
                                     onSelect={setToDate}
-                                    disabled={fromDate ? { before: fromDate } : undefined}
+                                    disabled={fromDate ? { before: fromDate } : { before: tomorrow }}
                                     initialFocus
                                     />
                                 </PopoverContent>

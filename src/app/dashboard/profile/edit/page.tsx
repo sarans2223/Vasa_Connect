@@ -62,6 +62,9 @@ export default function EditProfilePage() {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('userName', user.name);
 
+    // Dispatch a custom event to notify other components of the change
+    window.dispatchEvent(new Event('local-storage'));
+
     toast({
       title: "Profile Updated",
       description: "Your changes have been saved successfully.",

@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -43,6 +43,8 @@ export default function PostJobAndMatchPage() {
   const [toDate, setToDate] = React.useState<Date>();
   const [fromTime, setFromTime] = React.useState<string>('');
   const [toTime, setToTime] = React.useState<string>('');
+
+  const tomorrow = addDays(new Date(), 1);
 
   const timeOptions = Array.from({ length: 24 * 2 }, (_, i) => {
     const hours = Math.floor(i / 2);
@@ -141,6 +143,7 @@ export default function PostJobAndMatchPage() {
                           mode="single"
                           selected={fromDate}
                           onSelect={setFromDate}
+                          disabled={{ before: tomorrow }}
                           initialFocus
                         />
                       </PopoverContent>
@@ -179,7 +182,7 @@ export default function PostJobAndMatchPage() {
                           mode="single"
                           selected={toDate}
                           onSelect={setToDate}
-                          disabled={fromDate ? { before: fromDate } : undefined}
+                          disabled={fromDate ? { before: fromDate } : { before: tomorrow }}
                           initialFocus
                         />
                       </PopoverContent>

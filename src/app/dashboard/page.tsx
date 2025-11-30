@@ -58,9 +58,21 @@ export default function DashboardPage() {
   const { isVerified, isLoading } = useVerification();
 
   useEffect(() => {
-    const storedName = localStorage.getItem('userName');
-    if (storedName) {
-      setUserName(storedName.split(" ")[0]);
+    const handleStorageChange = () => {
+        const storedName = localStorage.getItem('userName');
+        if (storedName) {
+            setUserName(storedName.split(" ")[0]);
+        }
+    }
+    
+    handleStorageChange();
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('local-storage', handleStorageChange);
+
+    return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        window.removeEventListener('local-storage', handleStorageChange);
     }
   }, []);
 
