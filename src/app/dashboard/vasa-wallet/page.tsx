@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -38,8 +37,6 @@ import type { User, Job } from '@/lib/types';
 import { Wallet, Star, Gift, Banknote, Landmark, CreditCard, KeyRound, Calendar as CalendarIcon, Save } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-
-export const dynamic = 'force-dynamic';
 
 const rewardTiers = [
   { name: 'Book a Cleaner (4 hours)', points: 500, icon: '🧼' },
