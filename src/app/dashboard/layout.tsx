@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { DashboardNav } from "@/components/dashboard-nav";
 import { VerificationProvider } from "@/hooks/use-verification";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { initializeFirebase } from "@/firebase";
+import { signOut } from "@/firebase/auth";
 
 export default function DashboardLayout({
   children,
@@ -17,6 +19,7 @@ export default function DashboardLayout({
 }) {
   const [userName, setUserName] = useState<string | null>(null);
   const router = useRouter();
+  const { auth } = initializeFirebase();
 
   const handleStorageChange = () => {
     const name = localStorage.getItem('userName');
@@ -35,9 +38,14 @@ export default function DashboardLayout({
     };
   }, []);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    router.push('/login');
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      router.push('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   return (
@@ -79,13 +87,13 @@ export default function DashboardLayout({
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1" />
-          <div className="flex items-center gap-2">
+          <Link href="/dashboard/profile" className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
                 <AvatarImage src="/avatars/01.png" alt="User avatar" />
                 <AvatarFallback>{userName ? userName.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
             </Avatar>
             <span>{userName || 'VaSa User'}</span>
-          </div>
+          </Link>
           <Button variant="outline" size="icon" onClick={handleLogout}>
             <LogOut className="h-5 w-5" />
           </Button>

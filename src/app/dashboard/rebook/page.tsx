@@ -40,7 +40,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { format, addDays } from 'date-fns';
+import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -106,8 +106,6 @@ export default function RebookPage() {
     const [bookingLocation, setBookingLocation] = useState('');
     const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
     const [usePreviousLocation, setUsePreviousLocation] = useState(false);
-
-    const tomorrow = addDays(new Date(), 1);
 
     useEffect(() => {
         if (usePreviousLocation && selectedWorker) {
@@ -289,7 +287,7 @@ export default function RebookPage() {
                                         mode="single"
                                         selected={bookingDate}
                                         onSelect={setBookingDate}
-                                        disabled={{ before: tomorrow }}
+                                        disabled={{ before: new Date() }}
                                         initialFocus
                                         />
                                     </PopoverContent>

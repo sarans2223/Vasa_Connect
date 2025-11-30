@@ -32,6 +32,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/firebase/provider";
 import {
+  GoogleAuthProvider,
+  signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
@@ -85,7 +87,7 @@ export function AuthForm({ type }: AuthFormProps) {
 
   const handleAuthSuccess = (userCredential: any) => {
     const user = userCredential.user;
-    localStorage.setItem("userName", user.displayName || name || "User");
+    localStorage.setItem("userName", user.displayName || name);
     if (user.email) {
       localStorage.setItem("userEmail", user.email.toLowerCase());
     }
@@ -126,15 +128,11 @@ export function AuthForm({ type }: AuthFormProps) {
 
   const handleGoogleSignIn = () => {
     setIsGoogleLoading(true);
-    // Simulate a user object
-    const fakeUser = {
-        displayName: "User",
-        email: "user@example.com"
-    };
-    // Use a simplified success handler
-    localStorage.setItem("userName", fakeUser.displayName);
-    localStorage.setItem("userEmail", fakeUser.email);
-    router.push("/dashboard");
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then(handleAuthSuccess)
+      .catch((error) => handleAuthError(error, 'Google Sign In'))
+      .finally(() => setIsGoogleLoading(false));
   };
 
 
